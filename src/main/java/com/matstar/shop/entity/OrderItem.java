@@ -25,9 +25,9 @@ public class OrderItem extends BaseEntity{
     @JoinColumn(name="order_id")
     private Order order;
 
-    private int orderPrice;
+    private int orderPrice; // 주문 가격
 
-    private int count;
+    private int count; //주문 수량
 
     //private LocalDateTime regTime;
 
@@ -56,5 +56,9 @@ public class OrderItem extends BaseEntity{
     }
 
 
+
+    public void cancel() {
+        this.getItem().addStock(count);
+    }
 
 }

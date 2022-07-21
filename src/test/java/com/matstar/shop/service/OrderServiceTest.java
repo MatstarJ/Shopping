@@ -1,6 +1,7 @@
 package com.matstar.shop.service;
 
 import com.matstar.shop.constant.ItemSellStatus;
+import com.matstar.shop.constant.OrderStatus;
 import com.matstar.shop.dto.OrderDto;
 import com.matstar.shop.entity.Item;
 import com.matstar.shop.entity.Member;
@@ -76,5 +77,29 @@ class OrderServiceTest {
         int totalPrice = orderDto.getCount() * item.getPrice();
 
         assertEquals(totalPrice, order.getTotalPrice());
+    }
+
+
+    @Test
+    @DisplayName("주문 취소 테스트")
+    public void cancelOrder() {
+        Item item = saveItem();
+
+        Member member = saveMember();
+
+        OrderDto orderDto = new OrderDto();
+
+        orderDto.setCount(10);
+        orderDto.setItemId(item.getId());
+
+        Long orderId = orderService.order(orderDto, member.getEmail());
+
+        Order order = orderRepository.findById(orderId)
+                .orElseThrow(EntityNotFoundException::new);
+
+        orderService.cancelOrder(orderId);
+
+        assertEquals(OrderStatus.CANCEL,order.getOrderStatus());
+        assertEquals(100,item.getStockNumber());
     }
 }
