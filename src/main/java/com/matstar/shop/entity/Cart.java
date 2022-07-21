@@ -16,7 +16,7 @@ public class Cart extends BaseEntity {
     @Id
     @Column(name="cart_id")
     @GeneratedValue(strategy= GenerationType.AUTO)
-    private Long Id;
+    private Long id;
 
     @OneToOne(fetch = FetchType.LAZY)
     //매핑 외래키 지정
